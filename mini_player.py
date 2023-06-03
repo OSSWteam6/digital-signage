@@ -30,6 +30,7 @@ import queue
 import platform
 
 from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5.QtCore import Qt
 import vlc
 from network import Client
 
@@ -41,6 +42,7 @@ class MiniPlayer(QtWidgets.QMainWindow):
     def __init__(self, data_queue, master=None):
         QtWidgets.QMainWindow.__init__(self, master)
         self.setWindowTitle("Mini Player")
+        
         self.statusbar = self.statusBar()
         self.statusbar.showMessage("Ready")
 
@@ -51,23 +53,25 @@ class MiniPlayer(QtWidgets.QMainWindow):
 
         # Create an empty vlc media player
         self.mediaplayer = self.instance.media_player_new()
-
+        
         self.init_ui()
         self.open_file()
-
+        
         self.timer = QtCore.QTimer(self)
         self.timer.setInterval(10)
-        self.timer.timeout.connect(self.update_ui)
 
+        self.timer.timeout.connect(self.update_ui)
         self.data_queue = data_queue
         self.timer.start()
+   
+    
 
     def init_ui(self):
         """Set up the user interface
         """
         self.widget = QtWidgets.QWidget(self)
         self.setCentralWidget(self.widget)
-
+        
         # In this widget, the video will be drawn
         if platform.system() == "Darwin":  # for MacOS
             self.videoframe = QtWidgets.QMacCocoaViewContainer(0)
@@ -86,8 +90,8 @@ class MiniPlayer(QtWidgets.QMainWindow):
     def open_file(self):
         """Open a media file in a MediaPlayer
         """
-        dialog_txt = "Choose Media File"
-        filename = QtWidgets.QFileDialog.getOpenFileName(self, dialog_txt, os.path.expanduser('~'))
+        dialog_txt = "Read Media File"
+        filename = QtWidgets.QFileDialog.getOpenFileName(self, dialog_txt, '/digital_signage/저장 경로 템플릿.f248.webm')
         if not filename[0]:
             return
 
@@ -149,6 +153,7 @@ class MiniPlayer(QtWidgets.QMainWindow):
         mtime = QtCore.QTime(0, 0, 0, 0)
         time = mtime.addMSecs(self.mediaplayer.get_time())
         self.statusbar.showMessage(time.toString())
+    
 
 
 def main():
