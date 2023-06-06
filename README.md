@@ -8,3 +8,4 @@
 2) line 5: # network 실행
 3) line 6: # main 실행 후 나오는 미디어창 닫기
 4) line 7: # mini player 실행 - 재생 및 추가기능 구현 확인 가능
+5) 재실행시 커널 재시작 후 실행을 권장
